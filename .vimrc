@@ -16,6 +16,7 @@ set nofoldenable
 set wrap!
 set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline:h14 
 
+set background=light
 set t_Co=256
 colo molokai
 syntax on
@@ -32,6 +33,10 @@ au BufRead,BufNewFile *.hamlc set ft=haml
 filetype off 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 
+" ctrlp
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_map = '<c-p>'
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -40,7 +45,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rails.git'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'Lokaltog/vim-powerline'
-
+Bundle 'kien/ctrlp.vim'
 Bundle 'tomtom/checksyntax_vim'
 Bundle 'Enhanced-Javascript-syntax'
 Bundle 'pangloss/vim-javascript'
@@ -53,3 +58,14 @@ Bundle 'guileen/vim-node'
 
 filetype plugin indent on
 
+" Treat <li> and <p> tags like the block tags they are
+let g:html_indent_tags = 'li\|p'
+
+" Show registerj
+nnoremap <silent> <leader>r :reg<CR>
+
+"Save al buffers on loss of focus
+:au FocusLost * silent! :wa
+
+" Quick yanking to the end of the line
+nmap Y y$
