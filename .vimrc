@@ -15,16 +15,20 @@ set laststatus=2
 set nofoldenable
 set wrap!
 set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline:h14 
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif,*.m4v,*/log/*  
 
-set background=light
+"let g:solarized_termcolors=256
+syntax enable
+set background=dark
+colorscheme aurelia " ir_black aurelia - this is rc's
 set t_Co=256
-colo molokai
-syntax on
  
 :set number
 
 let g:Powerline_symbols = 'fancy'
-
+" Airline configs
+"let g:airline_powerline_fonts = 1
+"set laststatus=2
  
 au BufWrite /private/tmp/crontab.* set nowritebackup
 au BufWrite /private/etc/pw.* set nowritebackup
@@ -33,10 +37,6 @@ au BufRead,BufNewFile *.hamlc set ft=haml
 filetype off 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 
-" ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_map = '<c-p>'
-
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -44,28 +44,39 @@ Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rails.git'
 Bundle 'kchmck/vim-coffee-script'
+"Bundle 'bling/vim-airline'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'kien/ctrlp.vim'
 Bundle 'tomtom/checksyntax_vim'
+Bundle 'tomtom/tcomment_vim'
 Bundle 'Enhanced-Javascript-syntax'
 Bundle 'pangloss/vim-javascript'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-haml'
+Bundle 'tpope/vim-surround'
 Bundle 'less.vim'
 Bundle 'jQuery'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'guileen/vim-node'
+Bundle 'jamestomasino/actionscript-vim-bundle'
 
 filetype plugin indent on
 
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
-
-" Show registerj
-nnoremap <silent> <leader>r :reg<CR>
-
-"Save al buffers on loss of focus
-:au FocusLost * silent! :wa
-
-" Quick yanking to the end of the line
-nmap Y y$
+""" FocusMode
+function! ToggleFocusMode()
+  if (&foldcolumn != 12)
+    set laststatus=0
+    set numberwidth=10
+    set foldcolumn=12
+    set noruler
+    hi FoldColumn ctermbg=none
+    hi LineNr ctermfg=0 ctermbg=none
+    hi NonText ctermfg=0
+  else
+    set laststatus=2
+    set numberwidth=4
+    set foldcolumn=0
+    set ruler
+    execute 'colorscheme ' . g:colors_name
+  endif
+endfunc
+nnoremap <F1> :call ToggleFocusMode()<cr>
